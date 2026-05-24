@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-950 text-slate-100;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Glassmorphism Styles */
+.glass-panel {
+  background: rgba(30, 41, 59, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-card-hover:hover {
+  transform: translateY(-2px);
+  border-color: rgba(99, 102, 241, 0.25);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 0 15px rgba(99, 102, 241, 0.1);
+}
+
+/* Status Indicator Glows */
+.pulse-green {
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse-green 2s infinite;
+}
+@keyframes pulse-green {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.pulse-amber {
+  box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+  animation: pulse-amber 2s infinite;
+}
+@keyframes pulse-amber {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(245, 158, 11, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+  }
+}
+
+.pulse-red {
+  box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  animation: pulse-red 2s infinite;
+}
+@keyframes pulse-red {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+/* Animations */
+.animate-slide-up {
+  animation: slideUp 0.4s ease-out forwards;
+}
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "ComplianceAgent AI - Perf Auditor",
+  "version": "1.0.0",
+  "description": "Real-time Core Web Vitals monitor and automated performance compliance checker.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "http://localhost:8000/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

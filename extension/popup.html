@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 320px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+      margin: 0;
+      padding: 16px;
+    }
+    h3 {
+      margin-top: 0;
+      margin-bottom: 4px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #818cf8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .subtitle {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-bottom: 16px;
+    }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .metric-card {
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s;
+    }
+    .metric-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+    .metric-value {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .status-badge {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+    }
+    .status-green { background-color: #10b981; box-shadow: 0 0 8px #10b981; }
+    .status-amber { background-color: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
+    .status-red { background-color: #ef4444; box-shadow: 0 0 8px #ef4444; }
+    .status-unknown { background-color: #64748b; }
+    
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .btn {
+      background-color: #6366f1;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+    .btn:hover {
+      background-color: #4f46e5;
+    }
+    .btn-secondary {
+      background-color: #334155;
+      color: #cbd5e1;
+      border: 1px solid #475569;
+    }
+    .btn-secondary:hover {
+      background-color: #475569;
+      color: #ffffff;
+    }
+    .error-tag {
+      background-color: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h3>🛡️ ComplianceAgent AI</h3>
+  <div class="subtitle">Frontend Performance & Core Web Vitals Auditor</div>
+  
+  <div class="metric-grid">
+    <div class="metric-card">
+      <div>
+        <div class="metric-name">Largest Contentful Paint (LCP)</div>
+        <div style="font-size: 10px; color: #94a3b8;">Main content load time</div>
+      </div>
+      <div style="display: flex; align-items: center;">
+        <span id="lcp-indicator" class="status-badge status-unknown"></span>
+        <span id="lcp-val" class="metric-value">--</span>
+      </div>
+    </div>
+    
+    <div class="metric-card">
+      <div>
+        <div class="metric-name">Cumulative Layout Shift (CLS)</div>
+        <div style="font-size: 10px; color: #94a3b8;">Visual stability score</div>
+      </div>
+      <div style="display: flex; align-items: center;">
+        <span id="cls-indicator" class="status-badge status-unknown"></span>
+        <span id="cls-val" class="metric-value">--</span>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div>
+        <div class="metric-name">First Input Delay (FID)</div>
+        <div style="font-size: 10px; color: #94a3b8;">Interaction lag</div>
+      </div>
+      <div style="display: flex; align-items: center;">
+        <span id="fid-indicator" class="status-badge status-unknown"></span>
+        <span id="fid-val" class="metric-value">--</span>
+      </div>
+    </div>
+
+    <div class="metric-card" id="errors-card" style="display: none;">
+      <div>
+        <div class="metric-name">Javascript Errors</div>
+        <span class="error-tag" id="error-count">0 Detected</span>
+      </div>
+      <div class="metric-value" style="color: #ef4444;">⚠️</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a href="http://localhost:5173" target="_blank" class="btn">Open Analytics Dashboard</a>
+    <button id="trigger-audit" class="btn btn-secondary">Audit Current Page Code</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

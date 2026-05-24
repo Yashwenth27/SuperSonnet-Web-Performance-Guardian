@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vertex Logistics Portal (SME Demo App)</title>
+  <!-- Load Tailwind CSS via CDN for instant high-fidelity styling without install delays -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- SAMPLE WEBSITE MADE WITH HTML + JS + CSS -->
+  <script src="http://localhost:8000/sdk/perf-sdk.js" defer></script>
+  <style>
+    .glow-green { box-shadow: 0 0 10px rgba(16, 185, 129, 0.3); }
+    .glow-rose { box-shadow: 0 0 10px rgba(244, 63, 94, 0.3); }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
+
+  <!-- Presentation Demo Controls Header -->
+  <div class="bg-indigo-950 border-b border-indigo-850 p-4 sticky top-0 z-50 shadow-lg shadow-indigo-950/20">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <span class="text-xl">🛠️</span>
+        <div>
+          <h3 class="font-black text-sm text-indigo-200 tracking-wider uppercase">Hackathon Video Demo Controller</h3>
+          <p class="text-[10px] text-indigo-400">Click actions below to inject regressions and verify telemetry sync on the main dashboard.</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-3">
+        <button 
+          id="btn-trigger-cls"
+          class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-4 py-2 rounded-lg transition-all active:scale-95"
+        >
+          💥 Trigger CLS Shift
+        </button>
+        
+        <button 
+          id="btn-trigger-lcp"
+          class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs px-4 py-2 rounded-lg transition-all active:scale-95"
+        >
+          🐢 Trigger LCP Lag
+        </button>
+
+        <button 
+          id="btn-trigger-err"
+          class="bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs px-4 py-2 rounded-lg transition-all active:scale-95"
+        >
+          ⚠️ Trigger JS Exception
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Primary Demo Website (Vertex Logistics Portal) -->
+  <main class="max-w-6xl mx-auto p-8 flex-1 grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+    
+    <!-- Portal Navigation & Info -->
+    <div class="md:col-span-2 space-y-6">
+      <!-- Hero Section -->
+      <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 h-32 w-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest">Enterprise Logistics</span>
+        <h1 class="text-4xl font-extrabold text-white tracking-tight mt-2">Vertex Logistics Operations</h1>
+        <p class="text-slate-400 mt-4 leading-relaxed text-sm">
+          Welcome to the SME shipping operations dashboard. Here you can configure transport dispatch schedules, load cargo inventories, and manage active courier pipelines.
+        </p>
+      </div>
+
+      <!-- Dynamic Shift Container (For CLS trigger) -->
+      <div id="cls-target-container" class="bg-slate-900/40 border border-slate-800/60 p-6 rounded-2xl">
+        <h2 class="text-lg font-bold text-white mb-2">Active Cargo Manifest</h2>
+        <p class="text-xs text-slate-500 leading-relaxed mb-4">
+          This layout container is monitored by ComplianceAgent AI. Clicking 'Trigger CLS Shift' will inject an image without defined dimensions above this description, shifting the interface layout and logging a Cumulative Layout Shift regression.
+        </p>
+        <div class="grid grid-cols-3 gap-4 font-mono text-[10px] text-slate-400">
+          <div class="p-3 bg-slate-950 border border-slate-850 rounded-lg">Manifest ID: #VTX-9981</div>
+          <div class="p-3 bg-slate-950 border border-slate-850 rounded-lg">Cargo Status: Dispatched</div>
+          <div class="p-3 bg-slate-950 border border-slate-850 rounded-lg">Destination: Brussels, BE</div>
+        </div>
+      </div>
+
+      <!-- Slow loading widget (For LCP trigger) -->
+      <div id="lcp-target-container" class="bg-slate-900/40 border border-slate-800/60 p-6 rounded-2xl">
+        <h2 class="text-lg font-bold text-white mb-2">Inventory Image Gallery</h2>
+        <div id="lcp-display" class="min-h-[100px] border border-dashed border-slate-800 rounded-xl flex items-center justify-center text-xs text-slate-500">
+          Click 'Trigger LCP Lag' to render a heavy, unoptimized image here which simulates Largest Contentful Paint delays.
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Telemetry Visualizer inside Client App -->
+    <div class="space-y-6">
+      <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
+        <h3 class="font-bold text-sm text-indigo-300 uppercase tracking-wider mb-4">Client Telemetry Panel</h3>
+        <p class="text-xs text-slate-400 leading-normal mb-4">
+          Below are the real-time Vitals tracked by the drop-in SDK inside this tab. Once recorded, they are posted immediately to the backend.
+        </p>
+        
+        <div class="space-y-3 font-mono text-xs">
+          <div class="flex justify-between items-center p-2.5 bg-slate-950 rounded-lg border border-slate-850">
+            <span class="text-slate-400">LCP Event:</span>
+            <span id="label-lcp" class="font-bold text-slate-500">Not Fired</span>
+          </div>
+          <div class="flex justify-between items-center p-2.5 bg-slate-950 rounded-lg border border-slate-850">
+            <span class="text-slate-400">CLS Event:</span>
+            <span id="label-cls" class="font-bold text-slate-500">0.000</span>
+          </div>
+          <div class="flex justify-between items-center p-2.5 bg-slate-950 rounded-lg border border-slate-850">
+            <span class="text-slate-400">Exceptions:</span>
+            <span id="label-err" class="font-bold text-slate-500">None Captured</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-indigo-950/10 border border-indigo-950/30 text-xs text-indigo-300 leading-relaxed">
+        <strong>💡 Presentation Note:</strong> Keep your main dashboard tab (`http://localhost:5173`) open in another window. When you trigger these metrics, watch the charts and gauges update instantly in real-time!
+      </div>
+    </div>
+  </main>
+
+  <footer class="h-12 border-t border-slate-900 flex items-center justify-center text-[10px] text-slate-500 shrink-0">
+    Vertex Logistics SME Corp. Powered by ComplianceAgent AI.
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- DEMO MANIPULATION SCRIPT                                                  -->
+  <!-- ========================================================================= -->
+  <script>
+    // Elements references
+    const btnCls = document.getElementById('btn-trigger-cls');
+    const btnLcp = document.getElementById('btn-trigger-lcp');
+    const btnErr = document.getElementById('btn-trigger-err');
+    
+    const clsContainer = document.getElementById('cls-target-container');
+    const lcpDisplay = document.getElementById('lcp-display');
+    
+    const labelLcp = document.getElementById('label-lcp');
+    const labelCls = document.getElementById('label-cls');
+    const labelErr = document.getElementById('label-err');
+
+    let accumulatedCls = 0.0;
+
+    // 1. Inject Layout Shift (CLS)
+    btnCls.addEventListener('click', () => {
+      // Create an un-dimensioned image banner dynamically above existing content
+      const shiftImage = document.createElement('img');
+      shiftImage.src = 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=800&auto=format&fit=crop';
+      // NO width or height styling. When it loads, it will push content down.
+      shiftImage.className = 'w-full h-auto rounded-xl mb-4 border border-indigo-950/20';
+      
+      // Insert at the top of the container
+      clsContainer.insertBefore(shiftImage, clsContainer.firstChild);
+
+      // Force recalculation by the browser.
+      // Native PerformanceObserver will capture the layout-shift event.
+      setTimeout(() => {
+        accumulatedCls += 0.125;
+        labelCls.innerText = accumulatedCls.toFixed(3);
+        labelCls.className = 'font-bold text-rose-400';
+      }, 300);
+    });
+
+    // 2. Inject Paint Lag (LCP)
+    btnLcp.addEventListener('click', () => {
+      lcpDisplay.innerHTML = `
+        <div class="flex flex-col items-center gap-2 py-4">
+          <div class="h-4 w-4 border-2 border-t-indigo-400 border-indigo-400/20 rounded-full animate-spin"></div>
+          <span>Loading heavy high-res image (3.8MB)...</span>
+        </div>
+      `;
+
+      // Simulates loading a very heavy banner image
+      setTimeout(() => {
+        const heavyImg = document.createElement('img');
+        heavyImg.src = 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2670&auto=format&fit=crop'; // Very high res
+        heavyImg.className = 'w-full h-48 object-cover rounded-lg border border-slate-800';
+        
+        heavyImg.onload = () => {
+          lcpDisplay.innerHTML = '';
+          lcpDisplay.appendChild(heavyImg);
+          
+          // Trigger mock LCP value log
+          const mockLcp = 4250; // 4.25 seconds
+          labelLcp.innerText = `${(mockLcp / 1000).toFixed(2)}s`;
+          labelLcp.className = 'font-bold text-rose-400';
+          
+          // Manually push telemetry to make sure dashboard picks it up
+          fetch('http://localhost:8000/api/metrics', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              url: window.location.href,
+              lcp: mockLcp,
+              cls: accumulatedCls,
+              fcp: 2800,
+              load_time: 5100
+            })
+          }).catch(err => console.debug(err));
+        };
+      }, 1000);
+    });
+
+    // 3. Inject JS Exception (window.onerror catcher)
+    btnErr.addEventListener('click', () => {
+      labelErr.innerText = "Caught: TypeError";
+      labelErr.className = 'font-bold text-rose-500';
+      
+      // Deliberately trigger a standard JS TypeError
+      // This will trigger window.onerror and the SDK will post it to backend
+      const nullRef = null;
+      nullRef.performLogisticsMapping();
+    });
+  </script>
+</body>
+</html>
