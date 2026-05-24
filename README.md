@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+# Team SuperSonnet
+
+>>>>>>> d986d7cd1b477f343bc1040e1f72486f72c70724
 # ComplianceAgent AI - Frontend Performance & Core Web Vitals Auditor
 
 ComplianceAgent AI is an autonomous frontend compliance and performance monitoring agent. It tracks live Core Web Vitals (LCP, CLS, FID/INP) and JavaScript errors in real-time, analyzes codebases using a LangChain AI agent to locate regressions, and generates side-by-side git diff optimization patches automatically.
